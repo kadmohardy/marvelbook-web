@@ -10,9 +10,9 @@ export const AvatarIcon = styled(Avatar)`
   margin-right: 12px;
 `;
 
-export const ProfileButton = styled(Button).attrs(props => ({
+export const ProfileButton = styled(Button).attrs({
   variant: 'contained',
-}))`
+})`
   background-color: #ffffff;
   color: rgba(0, 0, 0, 0.85);
   display: flex;
