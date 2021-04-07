@@ -18,18 +18,16 @@ export default function user(
     switch (action.type) {
       case '@auth/SIGN_IN_SUCCESS': {
         draft.profile = action.payload.user;
-
-        break;
+        return draft;
       }
 
       case '@auth/SIGN_OUT': {
         draft.profile = null;
-        break;
+        return draft;
       }
 
       default:
         return draft;
     }
-    return state;
   });
 }

@@ -1,12 +1,5 @@
 /* eslint-disable no-shadow */
-import {
-  signInRequest,
-  signInSuccess,
-  signUpRequest,
-  signUpSuccess,
-  signFailure,
-  signOut,
-} from './actions';
+import { signInRequest, signInSuccess, signFailure, signOut } from './actions';
 
 export enum AuthenticationTypes {
   AUTH_SIGN_IN_REQUEST = '@auth/SIGN_IN_REQUEST',
@@ -25,17 +18,13 @@ export interface AuthenticationState {
 
 export type UserAction = ReturnType<
   | typeof signInRequest
-  | typeof signUpRequest
   | typeof signInSuccess
-  | typeof signUpSuccess
   | typeof signFailure
   | typeof signOut
 >;
 
 export type SignInRequestActionType = ReturnType<typeof signInRequest>;
-export type SignUpRequestActionType = ReturnType<typeof signUpRequest>;
 export type SignInSuccessActionType = ReturnType<typeof signInSuccess>;
-export type SignUpSuccessActionType = ReturnType<typeof signUpSuccess>;
 export type SignFailureActionType = ReturnType<typeof signFailure>;
 export type SignOutActionType = ReturnType<typeof signOut>;
 
@@ -45,9 +34,4 @@ export interface ISignInResponse {
     email: string;
   };
   token: string;
-}
-
-export interface ISignUpResponse {
-  fullname: string;
-  email: string;
 }

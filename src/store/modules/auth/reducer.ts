@@ -1,4 +1,6 @@
 import produce from 'immer';
+// import { Reducer } from 'redux';
+
 import { UserAction, AuthenticationState, AuthenticationTypes } from './types';
 
 const initialState: AuthenticationState = {
@@ -7,6 +9,29 @@ const initialState: AuthenticationState = {
   loading: false,
 };
 
+// const reducer: Reducer<AuthenticationState> = (
+//   state = initialState,
+//   action,
+// ) => {
+//   switch (action.type) {
+//     case AuthenticationTypes.AUTH_SIGN_IN_REQUEST: {
+//       return { ...state, loading: true };
+//     }
+//     case AuthenticationTypes.AUTH_SIGN_IN_SUCCESS: {
+//       return {
+//         ...state,
+//         loading: false,
+//         token: action.payload.token,
+//         signed: true,
+//       };
+//     }
+
+//     default: {
+//       return state;
+//     }
+//   }
+// };
+
 export default function auth(
   state = initialState,
   action: UserAction,
@@ -14,32 +39,31 @@ export default function auth(
   return produce(state, draft => {
     switch (action.type) {
       case AuthenticationTypes.AUTH_SIGN_IN_REQUEST: {
+        console.log('REDUCER DE ATUH', action.payload);
         draft.loading = true;
-        break;
+        return draft;
       }
 
       case AuthenticationTypes.AUTH_SIGN_IN_SUCCESS: {
-        console.log('REDUCER DE ATUH', action.payload);
         draft.token = action.payload.token;
         draft.signed = true;
         draft.loading = false;
-        break;
+        return draft;
       }
 
       case AuthenticationTypes.AUTH_SIGN_FAILURE: {
         draft.loading = false;
-        break;
+        return draft;
       }
 
       case AuthenticationTypes.AUTH_SIGN_OUT: {
         draft.token = null;
         draft.signed = false;
-        break;
+        return draft;
       }
 
       default:
         return draft;
     }
-    return state;
   });
 }

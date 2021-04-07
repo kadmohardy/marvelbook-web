@@ -34,13 +34,13 @@ export const Content = styled.div`
 `;
 
 export const Main = styled.div`
+  margin-top: 36px;
+  margin-bottom: 24px;
   display: flex;
   flex: 1;
   min-width: 320px;
   flex-direction: row;
-
   form {
-    margin-top: 24px;
     display: flex;
     flex: 1;
 
