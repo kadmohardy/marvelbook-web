@@ -1,6 +1,6 @@
 import { typedAction } from '../typedAction';
 import { User } from '../user/types';
-import { AuthenticationTypes } from './types';
+import { AuthenticationTypes, ISignUpResponse } from './types';
 
 export function signInRequest(email: string, password: string) {
   return typedAction(AuthenticationTypes.AUTH_SIGN_IN_REQUEST, {
@@ -25,6 +25,13 @@ export function signUpRequest(
     fullname,
     email,
     password,
+  });
+}
+
+export function signUpSuccess({ fullname, email }: ISignUpResponse) {
+  return typedAction(AuthenticationTypes.AUTH_SIGN_UP_SUCCESS, {
+    fullname,
+    email,
   });
 }
 

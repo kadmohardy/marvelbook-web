@@ -19,8 +19,6 @@ export function* signIn(action: SignInRequestActionType) {
     });
 
     const { user, token } = response;
-    console.log('TESTA', user);
-    console.log('UASHDUAHSUDHASUDHUASHDUAHSUDAHUSDH');
 
     api.defaults.headers.Authorization = `Bearer ${token}`;
     yield delay(3000);
@@ -49,14 +47,3 @@ export default all([
   takeLatest(AuthenticationTypes.AUTH_SIGN_IN_REQUEST, signIn),
   takeLatest(AuthenticationTypes.AUTH_SIGN_UP_REQUEST, signUp),
 ]);
-function* call(
-  post: <T = any, R = import('axios').AxiosResponse<T>>(
-    url: string,
-    data?: any,
-    config?: import('axios').AxiosRequestConfig | undefined,
-  ) => Promise<R>,
-  arg1: string,
-  arg2: { email: string; password: string },
-): ISignInResponse {
-  throw new Error('Function not implemented.');
-}

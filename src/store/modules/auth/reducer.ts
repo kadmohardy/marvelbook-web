@@ -38,6 +38,8 @@ export default function auth(
       }
 
       default:
+        return draft;
     }
+    return state;
   });
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export function typedAction<T extends string>(type: T): { type: T };
 
 export function typedAction<T extends string, P extends any>(

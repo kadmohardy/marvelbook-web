@@ -28,7 +28,8 @@ export default function user(
       }
 
       default:
-        return state;
+        return draft;
     }
+    return state;
   });
 }

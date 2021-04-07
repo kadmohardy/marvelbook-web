@@ -26,7 +26,6 @@
     "rules": {
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
-      "no-param-reassign": 0,
       "react/jsx-filename-extension": [
         1,
         {
@@ -49,7 +48,8 @@
       ],
       "react/react-in-jsx-scope": "off",
       "prettier/prettier": "error",
-      "@typescript-eslint/explicit-module-boundary-types": "off"
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "no-param-reassign": 0
     },
     "settings": {
       "import/resolver": {
