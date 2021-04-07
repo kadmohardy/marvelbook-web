@@ -1,13 +1,17 @@
 import { FormControl, Grid, TextField, Typography } from '@material-ui/core';
+import { toast } from 'react-toastify';
 import { makeStyles } from '@material-ui/core/styles';
 import { useFormik } from 'formik';
-import React, { useCallback } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+
+import React, { useState, useCallback } from 'react';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+
 import Button from '../../components/Button';
 import Layout from '../../components/Layout';
 import { IUserSignUpRequest } from '../../interfaces/users/user';
-import { Container, Content, Footer, FormItemLabel, Main } from './styles';
+import { Container, Content, FormItemLabel, Main } from './styles';
+import api from '../../services/api';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -21,10 +25,9 @@ const useStyles = makeStyles(theme => ({
 
 const SignUp: React.FC = () => {
   const classes = useStyles();
+  const history = useHistory();
 
-  const handleSubmit = useCallback(async (data: IUserSignUpRequest) => {
-    console.log('Testando submit', data);
-  }, []);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const signInSchema = Yup.object().shape({
     fullname: Yup.string().required('Nome obrigatório'),
@@ -32,7 +35,34 @@ const SignUp: React.FC = () => {
       .required('Email obrigatório')
       .email('Digite um email válido'),
     password: Yup.string().required('Senha obrigatória'),
+    password_confirmation: Yup.string().oneOf(
+      [Yup.ref('password'), null],
+      'Passwords must match',
+    ),
   });
+
+  const handleSubmit = useCallback(async (data: IUserSignUpRequest) => {
+    const { fullname, email, password } = data;
+
+    try {
+      setLoading(true);
+
+      await api.post('/users', {
+        fullname,
+        email,
+        password,
+      });
+
+      toast.success(
+        `Olá ${fullname}. Sua conta foi criada com sucesso. Entre com suas credenciais para acessar sua conta!`,
+      );
+      setLoading(false);
+      history.push('/signin');
+    } catch (error) {
+      toast.error(`Olá ${fullname}. Não foi possível criar a conta.`);
+      setLoading(false);
+    }
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -72,6 +102,16 @@ const SignUp: React.FC = () => {
                       helperText={
                         formik.touched.fullname && formik.errors.fullname
                       }
+                      inputProps={{
+                        style: {
+                          marginLeft: 5,
+                          width: 300,
+                        },
+                      }}
+                      style={{
+                        width: 320,
+                        marginBottom: 24,
+                      }}
                       fullWidth
                     />
                   </FormControl>
@@ -92,6 +132,16 @@ const SignUp: React.FC = () => {
                         formik.touched.email && Boolean(formik.errors.email)
                       }
                       helperText={formik.touched.email && formik.errors.email}
+                      inputProps={{
+                        style: {
+                          marginLeft: 5,
+                          width: 300,
+                        },
+                      }}
+                      style={{
+                        width: 320,
+                        marginBottom: 24,
+                      }}
                       fullWidth
                     />
                   </FormControl>
@@ -114,6 +164,16 @@ const SignUp: React.FC = () => {
                       helperText={
                         formik.touched.password && formik.errors.password
                       }
+                      inputProps={{
+                        style: {
+                          marginLeft: 5,
+                          width: 300,
+                        },
+                      }}
+                      style={{
+                        width: 320,
+                        marginBottom: 24,
+                      }}
                       fullWidth
                     />
                   </FormControl>
@@ -137,11 +197,21 @@ const SignUp: React.FC = () => {
                         formik.touched.password_confirmation &&
                         formik.errors.password_confirmation
                       }
+                      inputProps={{
+                        style: {
+                          marginLeft: 5,
+                          width: 300,
+                        },
+                      }}
+                      style={{
+                        width: 320,
+                        marginBottom: 24,
+                      }}
                       fullWidth
                     />
                   </FormControl>
                 </Grid>
-                <Button loading={false} title="Cadastre-se" />
+                <Button loading={loading} title="Cadastre-se" />
               </Grid>
             </form>
           </Main>

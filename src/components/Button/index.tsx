@@ -15,7 +15,7 @@ const Button: React.FC<
   ...props
 }: ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
-    <Container disableElevation type="submit">
+    <Container disableElevation type="submit" disabled={loading}>
       {loading && <Loading />}
       <h3>{title}</h3>
     </Container>
