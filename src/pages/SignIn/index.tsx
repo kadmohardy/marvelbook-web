@@ -5,13 +5,7 @@ import React, { useCallback, useState } from 'react';
 import * as Yup from 'yup';
 import Button from '../../components/Button';
 import Layout from '../../components/Layout';
-import {
-  Container,
-  Content,
-  FormItemLabel,
-  Main,
-  SocialButton,
-} from './styles';
+import { Container, Content, FormItemLabel, Main } from './styles';
 
 interface SignInFormData {
   email: string;
@@ -30,9 +24,6 @@ const useStyles = makeStyles(theme => ({
 
 const SignIn: React.FC = () => {
   const classes = useStyles();
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   const handleSubmit = useCallback(async (data: SignInFormData) => {
     console.log(data);
@@ -84,8 +75,8 @@ const SignIn: React.FC = () => {
                       fullWidth
                       inputProps={{
                         style: {
-                          marginLeft: 15,
-                          width: 310,
+                          marginLeft: 5,
+                          width: 300,
                         },
                       }}
                       style={{
@@ -117,7 +108,7 @@ const SignIn: React.FC = () => {
                       inputProps={{
                         style: {
                           marginLeft: 5,
-                          width: 310,
+                          width: 300,
                         },
                       }}
                       style={{
