@@ -1,9 +1,9 @@
 import { FormControl, Grid, TextField, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { useFormik } from 'formik';
 import React, { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
+import { useHistory } from 'react-router';
 import { signInRequest } from '../../store/modules/auth/actions';
 import Button from '../../components/Button';
 import Layout from '../../components/Layout';
@@ -18,18 +18,23 @@ interface SignInFormData {
 
 const SignIn: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const auth = useSelector<RootState>(
     state => state.auth,
   ) as AuthenticationState;
 
   useEffect(() => {
-    console.log('change auth', auth);
-  }, [auth]);
-
-  const handleSubmit = useCallback(async (data: SignInFormData) => {
-    dispatch(signInRequest(data.email, data.password));
+    if (auth.signed) {
+      history.push('/');
+    }
   }, []);
+
+  const handleSubmit = useCallback(
+    async (data: SignInFormData) => {
+      dispatch(signInRequest(data.email, data.password));
+    },
+  );
 
   const signInSchema = Yup.object().shape({
     email: Yup.string()
