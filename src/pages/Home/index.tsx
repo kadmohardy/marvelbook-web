@@ -54,10 +54,7 @@ const Home: React.FC = () => {
                 />
                 <VerticalDivider />
 
-                <SearchButton>
-                  {/* <CircularProgress color="secondary" /> */}
-                  Buscar
-                </SearchButton>
+                <SearchButton>Buscar</SearchButton>
               </SearchInputContainer>
             </SearchContainer>
           </SearchContentCenter>
