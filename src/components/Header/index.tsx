@@ -2,9 +2,9 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import StarsIcon from '@material-ui/icons/Stars';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import ProfileMenuButton from '../ProfileMenuButton';
-import { ProfileState } from '../../store/modules/user/types';
+import { UserState } from '../../store/modules/user/types';
 import { AuthenticationState } from '../../store/modules/auth/types';
 
 import {
@@ -24,9 +24,7 @@ const Header: React.FC = () => {
     state => state.auth,
   ) as AuthenticationState;
 
-  const profile = useSelector<RootState>(
-    state => state.user.profile,
-  ) as ProfileState;
+  const { profile } = useSelector<RootState>(state => state.user) as UserState;
 
   return (
     <Container>
@@ -43,7 +41,7 @@ const Header: React.FC = () => {
               <>
                 <ProfileMenuButton username={profile.fullname || 'Perfil'} />
                 <SignUpButton
-                  startIcon={<StarsIcon />}
+                  startIcon={<FavoriteIcon />}
                   onClick={() => console.log('tste')}
                   type="submit"
                 >

@@ -1,7 +1,9 @@
 import { AuthenticationState } from './auth/types';
-import { ProfileState } from './user/types';
+import { FavoritesState } from './favorites/types';
+import { UserState } from './user/types';
 
 export default interface RootState {
   auth: AuthenticationState;
-  user: { profile: ProfileState };
+  user: UserState;
+  favorites: FavoritesState;
 }
