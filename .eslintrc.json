@@ -25,7 +25,7 @@
     ],
     "rules": {
       "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn",
+      "react-hooks/exhaustive-deps": "off",
       "react/jsx-filename-extension": [
         1,
         {
@@ -44,12 +44,14 @@
       ],
       "no-use-before-define": "off",
       "@typescript-eslint/no-use-before-define": [
-        "error"
+        "off"
       ],
       "react/react-in-jsx-scope": "off",
       "prettier/prettier": "error",
       "@typescript-eslint/explicit-module-boundary-types": "off",
-      "no-param-reassign": 0
+      "no-param-reassign": 0,
+      "react/jsx-props-no-spreading": "off",
+      "react/prop-types": "off"
     },
     "settings": {
       "import/resolver": {

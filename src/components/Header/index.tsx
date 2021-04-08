@@ -24,6 +24,10 @@ const Header: React.FC = () => {
     state => state.auth,
   ) as AuthenticationState;
 
+  const profile = useSelector<RootState>(
+    state => state.user.profile,
+  ) as ProfileState;
+
   return (
     <Container>
       <HeaderBar>
@@ -35,18 +39,24 @@ const Header: React.FC = () => {
           </HeaderLeft>
           <Grow />
           <HeaderRight>
-            {signed && <ProfileMenuButton username="Kadmo" />}
             {signed && (
-              <SignUpButton
-                startIcon={<StarsIcon />}
-                onClick={() => console.log('tste')}
-                type="submit"
-              >
-                Favoritos
-              </SignUpButton>
+              <>
+                <ProfileMenuButton username={profile.fullname || 'Perfil'} />
+                <SignUpButton
+                  startIcon={<StarsIcon />}
+                  onClick={() => console.log('tste')}
+                  type="submit"
+                >
+                  Favoritos
+                </SignUpButton>
+              </>
             )}
-            <Link to="/signup">Criar Conta</Link>
-            <Link to="/signin">Entrar</Link>
+            {!signed && (
+              <>
+                <Link to="/signup">Criar Conta</Link>
+                <Link to="/signin">Entrar</Link>
+              </>
+            )}
           </HeaderRight>
         </HeaderToolbar>
       </HeaderBar>

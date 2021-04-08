@@ -57,7 +57,6 @@ const SignUp: React.FC = () => {
         `Olá ${fullname}. Sua conta foi criada com sucesso. Entre com suas credenciais para acessar sua conta!`,
       );
       setLoading(false);
-      history.push('/signin');
     } catch (error) {
       toast.error(`Olá ${fullname}. Não foi possível criar a conta.`);
       setLoading(false);

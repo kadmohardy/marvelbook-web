@@ -1,44 +1,27 @@
-import { typedAction } from '../typedAction';
+import { action } from 'typesafe-actions';
+import { toast } from 'react-toastify';
 import { User } from '../user/types';
-import { AuthenticationTypes, ISignUpResponse } from './types';
+import { AuthenticationTypes } from './types';
 
 export function signInRequest(email: string, password: string) {
-  return typedAction(AuthenticationTypes.AUTH_SIGN_IN_REQUEST, {
+  return action(AuthenticationTypes.AUTH_SIGN_IN_REQUEST, {
     email,
     password,
   });
 }
 
 export function signInSuccess(token: string, user: User) {
-  return typedAction(AuthenticationTypes.AUTH_SIGN_IN_SUCCESS, {
+  return action(AuthenticationTypes.AUTH_SIGN_IN_SUCCESS, {
     token,
     user,
   });
 }
 
-export function signUpRequest(
-  fullname: string,
-  email: string,
-  password: string,
-) {
-  return typedAction(AuthenticationTypes.AUTH_SIGN_UP_REQUEST, {
-    fullname,
-    email,
-    password,
-  });
-}
-
-export function signUpSuccess({ fullname, email }: ISignUpResponse) {
-  return typedAction(AuthenticationTypes.AUTH_SIGN_UP_SUCCESS, {
-    fullname,
-    email,
-  });
-}
-
 export function signFailure() {
-  return typedAction(AuthenticationTypes.AUTH_SIGN_FAILURE);
+  toast.error('Erro ao tentar realizar o signin. Usuário/Senha incorretos.');
+  return action(AuthenticationTypes.AUTH_SIGN_FAILURE);
 }
 
 export function signOut() {
-  return typedAction(AuthenticationTypes.AUTH_SIGN_OUT);
+  return action(AuthenticationTypes.AUTH_SIGN_OUT);
 }

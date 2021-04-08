@@ -1,33 +1,37 @@
 import { FormControl, Grid, TextField, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { useFormik } from 'formik';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
+import { useHistory } from 'react-router-dom';
+import { signInRequest } from '../../store/modules/auth/actions';
 import Button from '../../components/Button';
 import Layout from '../../components/Layout';
 import { Container, Content, FormItemLabel, Main } from './styles';
+import { AuthenticationState } from '../../store/modules/auth/types';
+import RootState from '../../store/modules/rootState';
 
 interface SignInFormData {
   email: string;
   password: string;
 }
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    marginTop: 12,
-    '& .MuiFormControl-root': {
-      margin: theme.spacing(0.5),
-      marginLeft: theme.spacing(0),
-    },
-  },
-}));
-
 const SignIn: React.FC = () => {
-  const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const auth = useSelector<RootState>(
+    state => state.auth,
+  ) as AuthenticationState;
+
+  useEffect(() => {
+    if (auth.signed) {
+      history.push('/');
+    }
+  }, []);
 
   const handleSubmit = useCallback(async (data: SignInFormData) => {
-    console.log(data);
-    // dispatch(userSignInRequest(data.email, data.password));
+    dispatch(signInRequest(data.email, data.password));
   }, []);
 
   const signInSchema = Yup.object().shape({
@@ -51,9 +55,8 @@ const SignIn: React.FC = () => {
       <Container>
         <Content>
           <Typography variant="h5">Acesse sua conta</Typography>
-          <Grid container xs={12} />
           <Main>
-            <form onSubmit={formik.handleSubmit} className={classes.root}>
+            <form onSubmit={formik.handleSubmit}>
               <Grid container xs={12}>
                 <Grid item xs={12}>
                   <FormControl>
@@ -118,14 +121,14 @@ const SignIn: React.FC = () => {
                     />
                   </FormControl>
                 </Grid>
-                <Button title="Entrar" loading={false} />
+                <Button title="Entrar" loading={auth.loading} />
               </Grid>
             </form>
           </Main>
 
-          <p>
+          <Typography variant="subtitle2" gutterBottom>
             Não tem um conta? <a href="/user/signup">Cadastre-se</a>
-          </p>
+          </Typography>
         </Content>
       </Container>
     </Layout>
