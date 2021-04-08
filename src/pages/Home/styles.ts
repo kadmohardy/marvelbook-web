@@ -1,4 +1,4 @@
-import { Button, TextField, Typography } from '@material-ui/core';
+import { Button, TextField, Typography, Select } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import styled from 'styled-components';
 
@@ -77,6 +77,16 @@ export const AutoCompleteField = styled(Autocomplete).attrs({
   margin: 2px 16px;
 `;
 
+export const SelectField = styled(Select).attrs({
+  variant: 'outlined',
+  disableElevation: true,
+})`
+  border-color: #ffffff;
+  width: 180px;
+  border-radius: 4px;
+  margin: 2px 16px;
+`;
+
 export const TextFieldForAutoComplete = styled(TextField).attrs({
   variant: 'outlined',
   disableElevation: true,
@@ -120,7 +130,7 @@ export const SearchButton = styled(Button).attrs({
 
 export const SearchInput = styled.input`
   border: none;
-  padding: 30px 10px;
+  padding: 20px 10px;
   outline: none;
   width: 320px;
 `;

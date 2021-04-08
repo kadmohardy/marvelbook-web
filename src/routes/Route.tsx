@@ -23,19 +23,21 @@ const Route: React.FC<RouteProps> = ({
     <ReactDOMRoute
       {...rest}
       render={({ location }) => {
-        return isPrivate === signed ? (
-          <Component />
-        ) : (
-          <Redirect
-            to={{
-              pathname: isPrivate ? '/' : '/dashboard',
-              state: { from: location },
-            }}
-          />
-        );
+        return <Component />;
       }}
     />
   );
 };
 
 export default Route;
+
+// isPrivate === signed ? (
+//   <Component />
+// ) : (
+//   <Redirect
+//     to={{
+//       pathname: '/',
+//       state: { from: location },
+//     }}
+//   />
+// );

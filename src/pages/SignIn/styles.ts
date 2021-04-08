@@ -1,9 +1,9 @@
 import { Button, FormLabel, Paper } from '@material-ui/core';
 import styled from 'styled-components';
 
-export const Container = styled(Paper).attrs(props => ({
+export const Container = styled(Paper).attrs({
   elevation: 1,
-}))`
+})`
   display: flex;
   background: #fff;
   padding: 24px 48px;
@@ -77,9 +77,9 @@ export const FormItemLabel = styled(FormLabel)`
   text-transform: none;
   font-weight: bold;
 `;
-export const SocialButton = styled(Button).attrs(props => ({
+export const SocialButton = styled(Button).attrs({
   variant: 'contained',
-}))`
+})`
   background: #ffffff;
   color: rgba(0, 0, 0, 0.85);
   display: flex;

@@ -4,7 +4,6 @@ import { User } from '../user/types';
 import { AuthenticationTypes } from './types';
 
 export function signInRequest(email: string, password: string) {
-  console.log('TESTANDO AUSHDUAHSDUASHUDHA');
   return action(AuthenticationTypes.AUTH_SIGN_IN_REQUEST, {
     email,
     password,

@@ -1,4 +1,5 @@
 import { all, fork, call, delay, put, takeLatest } from 'redux-saga/effects';
+import { AxiosResponse } from 'axios';
 import api from '../../../services/api';
 import { signFailure, signInSuccess } from './actions';
 
@@ -10,16 +11,13 @@ import {
 
 function* signIn(action: SignInRequestActionType) {
   try {
-    console.log('TESTANDO ASUHDUASHDUAUSHDU22222');
     const { email, password } = action.payload;
 
-    const response: ISignInResponse = yield call(api.post, '/sessions', {
+    const response: AxiosResponse = yield call(api.post, '/sessions', {
       email,
       password,
     });
-
-    const { user, token } = response;
-
+    const { user, token } = response.data;
     api.defaults.headers.Authorization = `Bearer ${token}`;
     yield delay(3000);
 
@@ -37,7 +35,3 @@ function* watchSignInRequest() {
 export function* authSagas() {
   yield all([fork(watchSignInRequest)]);
 }
-
-// export default all([
-//   takeLatest(AuthenticationTypes.AUTH_SIGN_IN_REQUEST, signIn),
-// ]);

@@ -1,9 +1,9 @@
 import { FormControl, Grid, TextField, Typography } from '@material-ui/core';
 import { useFormik } from 'formik';
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { signInRequest } from '../../store/modules/auth/actions';
 import Button from '../../components/Button';
 import Layout from '../../components/Layout';
@@ -30,11 +30,9 @@ const SignIn: React.FC = () => {
     }
   }, []);
 
-  const handleSubmit = useCallback(
-    async (data: SignInFormData) => {
-      dispatch(signInRequest(data.email, data.password));
-    },
-  );
+  const handleSubmit = useCallback(async (data: SignInFormData) => {
+    dispatch(signInRequest(data.email, data.password));
+  }, []);
 
   const signInSchema = Yup.object().shape({
     email: Yup.string()

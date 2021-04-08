@@ -10,6 +10,7 @@ import {
 } from './styles';
 
 interface ProfileMenuButtonProps {
+  // eslint-disable-next-line react/require-default-props
   username: string;
 }
 
