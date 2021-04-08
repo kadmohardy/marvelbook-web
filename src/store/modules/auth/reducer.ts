@@ -1,4 +1,5 @@
 import produce from 'immer';
+
 import { UserAction, AuthenticationState, AuthenticationTypes } from './types';
 
 const initialState: AuthenticationState = {
@@ -15,31 +16,29 @@ export default function auth(
     switch (action.type) {
       case AuthenticationTypes.AUTH_SIGN_IN_REQUEST: {
         draft.loading = true;
-        break;
+        return draft;
       }
 
       case AuthenticationTypes.AUTH_SIGN_IN_SUCCESS: {
-        console.log('REDUCER DE ATUH', action.payload);
         draft.token = action.payload.token;
         draft.signed = true;
         draft.loading = false;
-        break;
+        return draft;
       }
 
       case AuthenticationTypes.AUTH_SIGN_FAILURE: {
         draft.loading = false;
-        break;
+        return draft;
       }
 
       case AuthenticationTypes.AUTH_SIGN_OUT: {
         draft.token = null;
         draft.signed = false;
-        break;
+        return draft;
       }
 
       default:
         return draft;
     }
-    return state;
   });
 }

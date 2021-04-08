@@ -1,25 +1,23 @@
-import { all, call, delay, put, takeLatest } from 'redux-saga/effects';
+import { all, fork, call, delay, put, takeLatest } from 'redux-saga/effects';
+import { AxiosResponse } from 'axios';
 import api from '../../../services/api';
 import { signFailure, signInSuccess } from './actions';
 
 import {
   AuthenticationTypes,
   SignInRequestActionType,
-  SignUpRequestActionType,
   ISignInResponse,
 } from './types';
 
-export function* signIn(action: SignInRequestActionType) {
+function* signIn(action: SignInRequestActionType) {
   try {
     const { email, password } = action.payload;
 
-    const response: ISignInResponse = yield call(api.post, '/sessions', {
+    const response: AxiosResponse = yield call(api.post, '/sessions', {
       email,
       password,
     });
-
-    const { user, token } = response;
-
+    const { user, token } = response.data;
     api.defaults.headers.Authorization = `Bearer ${token}`;
     yield delay(3000);
 
@@ -29,21 +27,11 @@ export function* signIn(action: SignInRequestActionType) {
   }
 }
 
-export function* signUp(action: SignUpRequestActionType) {
-  try {
-    const { fullname, email, password } = action.payload;
-
-    yield call(api.post, '/users', {
-      fullname,
-      email,
-      password,
-    });
-  } catch (error) {
-    yield put(signFailure());
-  }
+function* watchSignInRequest() {
+  yield takeLatest(AuthenticationTypes.AUTH_SIGN_IN_REQUEST, signIn);
 }
 
-export default all([
-  takeLatest(AuthenticationTypes.AUTH_SIGN_IN_REQUEST, signIn),
-  takeLatest(AuthenticationTypes.AUTH_SIGN_UP_REQUEST, signUp),
-]);
+// eslint-disable-next-line import/prefer-default-export
+export function* authSagas() {
+  yield all([fork(watchSignInRequest)]);
+}
