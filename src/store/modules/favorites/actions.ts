@@ -2,8 +2,9 @@ import { action } from 'typesafe-actions';
 import { toast } from 'react-toastify';
 import { IFavorite } from '../../../interfaces/favorites/favorites';
 import { FavoritesActions } from './types';
+import { ICharacter } from '../../../interfaces/marvel/character';
 
-export function addToFavoritesRequest(token: string, data: IFavorite) {
+export function addToFavoritesRequest(token: string, data: ICharacter) {
   return action(FavoritesActions.ADD_TO_FAVORITES_REQUEST, {
     token,
     data,
@@ -11,6 +12,7 @@ export function addToFavoritesRequest(token: string, data: IFavorite) {
 }
 
 export function addToFavoritesSuccess(data: IFavorite) {
+  console.log('favoritos', data);
   return action(FavoritesActions.ADD_TO_FAVORITES_SUCCESS, {
     data,
   });

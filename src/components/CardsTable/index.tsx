@@ -12,9 +12,12 @@ interface CardsTableProps {
 const CardsTable: React.FC<CardsTableProps> = ({ count, characters }) => {
   return (
     <Container>
-      <Typography variant="subtitle2">{`${count} resultados mostrados`}</Typography>
+      <Typography
+        variant="subtitle2"
+        gutterBottom
+      >{`${count} resultados mostrados`}</Typography>
       {characters.map((item: ICharacter) => {
-        return <CharacterCard data={item} />;
+        return <CharacterCard key={item.id} data={item} />;
       })}
     </Container>
   );

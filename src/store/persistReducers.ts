@@ -7,7 +7,7 @@ export default (reducers: Reducer) => {
     {
       key: 'marvelbook',
       storage,
-      whitelist: ['auth', 'user'],
+      whitelist: ['auth', 'user', 'favorites'],
     },
     reducers,
   );

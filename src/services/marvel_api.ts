@@ -26,6 +26,20 @@ const getCharacters = async (searchText: string, pageNumber: number) => {
   return response.data.data;
 };
 
+const getCharacter = async (id: number) => {
+  const timestamp = Number(new Date());
+  const hash = md5(timestamp + PRIVATE_KEY + PUBLIC_KEY);
+  const response = await api.get(`/characters/${id}`, {
+    params: {
+      apikey: PUBLIC_KEY,
+      hash,
+      ts: timestamp,
+    },
+  });
+
+  return response.data.data.results[0];
+};
+
 const getComics = async (searchText: string) => {
   const timestamp = Number(new Date());
   const hash = md5(timestamp + PRIVATE_KEY + PUBLIC_KEY);
@@ -42,4 +56,4 @@ const getComics = async (searchText: string) => {
   return response.data.data;
 };
 
-export { getCharacters, getComics };
+export { getCharacters, getComics, getCharacter };

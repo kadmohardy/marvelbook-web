@@ -215,9 +215,9 @@ const SignUp: React.FC = () => {
             </form>
           </Main>
 
-          <p>
-            Já tem um conta? <Link to="/signin">Entrar</Link>
-          </p>
+          <Typography variant="subtitle2" gutterBottom>
+            Já tem um conta? <a href="/signin">Cadastre-se</a>
+          </Typography>
         </Content>
       </Container>
     </Layout>

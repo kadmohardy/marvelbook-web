@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 export const Container = styled(Modal).attrs({
   elevation: 0,
+  disableAutoFocus: true,
 })`
   background: #ffffff;
   box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.08);
@@ -11,6 +12,7 @@ export const Container = styled(Modal).attrs({
   display: flex;
   align-items: center;
   justify-content: center;
+  outline: none;
 `;
 
 export const FavoriteButton = styled(Button).attrs({

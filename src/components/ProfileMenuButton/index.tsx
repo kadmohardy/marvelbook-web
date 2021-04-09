@@ -1,7 +1,10 @@
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import React from 'react';
+import { signOut } from '../../store/modules/auth/actions';
 import {
   AvatarIcon,
   ProfileButton,
@@ -17,6 +20,8 @@ interface ProfileMenuButtonProps {
 const ProfileMenuButton: React.FC<ProfileMenuButtonProps> = ({
   username,
 }: ProfileMenuButtonProps) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleOpenMenu = (event: any) => {
@@ -48,12 +53,12 @@ const ProfileMenuButton: React.FC<ProfileMenuButtonProps> = ({
         open={Boolean(anchorEl)}
         onClose={handleCloseMenu}
       >
-        <ProfileMenuItem onClick={() => console.log('teste')}>
+        <ProfileMenuItem onClick={() => history.push('/profile')}>
           Meu Perfil
         </ProfileMenuItem>
         <Divider />
 
-        <ProfileMenuItem onClick={() => console.log('testa')}>
+        <ProfileMenuItem onClick={() => dispatch(signOut())}>
           Sair
         </ProfileMenuItem>
       </ProfileMenu>

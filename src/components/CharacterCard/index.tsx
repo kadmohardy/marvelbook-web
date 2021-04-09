@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Typography } from '@material-ui/core';
 
 import CardContent from '@material-ui/core/CardContent';
-import StarsIcon from '@material-ui/icons/Stars';
 import DetailsModal from '../DetailsModal';
 import { ICharacter } from '../../interfaces/marvel/character';
 import {
@@ -12,7 +11,6 @@ import {
   Header,
   Image,
   Information,
-  ScheduleButton,
 } from './styles';
 
 interface CharacterCardProps {
@@ -34,9 +32,6 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ data }) => {
             </Typography>
           </Information>
           <Actions>
-            {/* <ScheduleButton startIcon={<StarsIcon />} size="small">
-                  Adicionar Favoritos
-                </ScheduleButton> */}
             <DetailsButton
               size="small"
               onClick={() => {

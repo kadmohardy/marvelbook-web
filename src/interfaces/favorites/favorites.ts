@@ -5,4 +5,5 @@ export interface IFavorite {
   favorite: boolean;
   image: string;
   type: string;
+  marvelId: string;
 }
