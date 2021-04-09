@@ -1,13 +1,15 @@
 import { all, fork, call, delay, put, takeLatest } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
 import api from '../../../services/api';
-import { updateAccountInfoFailure, updateAccountInfoSuccess } from './actions';
+import {
+  updateAccountInfoFailure,
+  updateAccountInfoSuccess,
+  UpdateAccountInfoRequestActionType,
+} from './actions';
 
-import { UserActionTypes, UpdateAccountInfoRequestActionType } from './types';
+import { UserAccountActions } from './types';
 
 function* updateAccountInfo(action: UpdateAccountInfoRequestActionType) {
-  console.log('updateAccountInfo');
-
   try {
     const { data, token } = action.payload;
 
@@ -26,7 +28,7 @@ function* updateAccountInfo(action: UpdateAccountInfoRequestActionType) {
 
 function* watchSignInRequest() {
   yield takeLatest(
-    UserActionTypes.ACCOUNT_INFO_UPDATE_REQUEST,
+    UserAccountActions.ACCOUNT_INFO_UPDATE_REQUEST,
     updateAccountInfo,
   );
 }

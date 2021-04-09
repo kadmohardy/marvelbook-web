@@ -18,12 +18,21 @@ const Route: React.FC<RouteProps> = ({
   ...rest
 }) => {
   const signed = useSelector<RootState>(state => state.auth.signed);
-
+  console.log(signed);
   return (
     <ReactDOMRoute
       {...rest}
       render={({ location }) => {
-        return <Component />;
+        return isPrivate === signed || isPrivate === false ? (
+          <Component />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/',
+              state: { from: location },
+            }}
+          />
+        );
       }}
     />
   );

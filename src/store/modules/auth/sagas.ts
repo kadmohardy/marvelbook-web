@@ -1,13 +1,9 @@
 import { all, fork, call, delay, put, takeLatest } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
 import api from '../../../services/api';
-import { signFailure, signInSuccess } from './actions';
+import { signFailure, signInSuccess, SignInRequestActionType } from './actions';
 
-import {
-  AuthenticationTypes,
-  SignInRequestActionType,
-  ISignInResponse,
-} from './types';
+import { AuthenticationActions } from './types';
 
 function* signIn(action: SignInRequestActionType) {
   try {
@@ -28,7 +24,7 @@ function* signIn(action: SignInRequestActionType) {
 }
 
 function* watchSignInRequest() {
-  yield takeLatest(AuthenticationTypes.AUTH_SIGN_IN_REQUEST, signIn);
+  yield takeLatest(AuthenticationActions.AUTH_SIGN_IN_REQUEST, signIn);
 }
 
 // eslint-disable-next-line import/prefer-default-export

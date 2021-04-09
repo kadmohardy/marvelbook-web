@@ -1,34 +1,38 @@
 import produce from 'immer';
-import { AuthenticationTypes, UserAction } from '../auth/types';
-import { ProfileState, UserAccountAction, UserActionTypes } from './types';
+import { UserAccountActions, UserState } from './types';
+import { UserAccountActionTypes } from './actions';
+import { UserActionTypes } from '../auth/actions';
+import { AuthenticationActions } from '../auth/types';
 
-type Profile = {
-  profile: ProfileState | null;
-};
-
-const initialState: Profile = {
-  profile: null,
+const initialState: UserState = {
+  profile: {
+    fullname: '',
+    email: '',
+  },
+  loading: false,
 };
 
 export default function user(
   state = initialState,
-  action: UserAction | UserAccountAction,
-): Profile {
+  action: UserActionTypes | UserAccountActionTypes,
+): UserState {
   return produce(state, draft => {
     switch (action.type) {
-      case AuthenticationTypes.AUTH_SIGN_IN_SUCCESS: {
+      case AuthenticationActions.AUTH_SIGN_IN_SUCCESS: {
         draft.profile = action.payload.user;
         return draft;
       }
 
-      case UserActionTypes.ACCOUNT_INFO_UPDATE_RESPONSE: {
-        console.log('To no reducer', action.payload);
+      case UserAccountActions.ACCOUNT_INFO_UPDATE_SUCCESS: {
         draft.profile = action.payload;
         return draft;
       }
 
-      case '@auth/SIGN_OUT': {
-        draft.profile = null;
+      case AuthenticationActions.AUTH_SIGN_OUT: {
+        draft.profile = {
+          fullname: '',
+          email: '',
+        };
         return draft;
       }
 

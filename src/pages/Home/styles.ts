@@ -1,4 +1,10 @@
-import { Button, TextField, Typography, Select } from '@material-ui/core';
+import {
+  Button,
+  TextField,
+  Typography,
+  Select,
+  CircularProgress,
+} from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import styled from 'styled-components';
 
@@ -133,4 +139,18 @@ export const SearchInput = styled.input`
   padding: 20px 10px;
   outline: none;
   width: 320px;
+`;
+
+export const SearchResultsContainer = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const Loading = styled(CircularProgress).attrs({
+  color: 'inherit',
+  size: 20,
+})`
+  margin-right: 5px;
 `;

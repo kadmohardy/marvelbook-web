@@ -127,7 +127,7 @@ const SignIn: React.FC = () => {
           </Main>
 
           <Typography variant="subtitle2" gutterBottom>
-            Não tem um conta? <a href="/user/signup">Cadastre-se</a>
+            Não tem um conta? <a href="/signup">Cadastre-se</a>
           </Typography>
         </Content>
       </Container>

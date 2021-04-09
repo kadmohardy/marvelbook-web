@@ -8,9 +8,9 @@ export const Container = styled.div`
   flex: 1;
 `;
 
-export const HeaderBar = styled(AppBar).attrs(props => ({
+export const HeaderBar = styled(AppBar).attrs({
   elevation: 0,
-}))``;
+})``;
 
 export const HeaderToolbar = styled(Toolbar)`
   background: #ffffff;
@@ -85,7 +85,7 @@ export const HeaderRight = styled.div`
   }
 `;
 
-export const SignUpButton = styled(Button)`
+export const FavoritesButton = styled(Button)`
   background: ${props => props.theme.palette.primary.main};
   color: #ffffff;
   border-radius: 32px;

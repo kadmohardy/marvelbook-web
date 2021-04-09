@@ -5,10 +5,7 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import RootState from '../../store/modules/rootState';
-import {
-  AuthenticationState,
-  ProfileState,
-} from '../../store/modules/user/types';
+import { AuthenticationState, UserState } from '../../store/modules/user/types';
 import { updateAccountInfoRequest } from '../../store/modules/user/actions';
 
 import Button from '../Button';
@@ -50,9 +47,7 @@ const AccountSettings: React.FC = () => {
     state => state.auth,
   ) as AuthenticationState;
 
-  const profile = useSelector<RootState>(
-    state => state.user.profile,
-  ) as ProfileState;
+  const { profile } = useSelector<RootState>(state => state.user) as UserState;
 
   const handleSubmit = useCallback(async (data: AccountSettingsFormData) => {
     if (token !== null) dispatch(updateAccountInfoRequest(token, data));
@@ -67,8 +62,8 @@ const AccountSettings: React.FC = () => {
 
   const formik = useFormik({
     initialValues: {
-      fullname: profile.fullname,
-      email: profile.email,
+      fullname: profile.fullname || '',
+      email: profile.email || '',
     },
     validationSchema: accountSettingsSchema,
     onSubmit: handleSubmit,

@@ -1,9 +1,10 @@
 import SearchIcon from '@material-ui/icons/Search';
-import React, { useState, useEffect, useCallback } from 'react';
-import { useFormik } from 'formik';
-import md5 from 'md5';
-import * as Yup from 'yup';
+import Pagination from '@material-ui/lab/Pagination';
+import React, { useState, useCallback } from 'react';
+import { toast } from 'react-toastify';
+import CardsTable from '../../components/CardsTable';
 import Layout from '../../components/Layout';
+import { ICharacter } from '../../interfaces/marvel/character';
 import {
   Container,
   SearchButton,
@@ -17,59 +18,90 @@ import {
   AutoCompleteField,
   VerticalDivider,
   TextFieldForAutoComplete,
+  SearchResultsContainer,
+  Loading,
 } from './styles';
-import { ISearchRequest } from '../../interfaces/search/search';
-import marvelApi from '../../services/marvel_api';
-
-const PUBLIC_KEY = '0237534423f103800b1a9c8be30896e5';
-const PRIVATE_KEY = '629fa04957b490b0cde7d606d340202f04b8d7b7';
+import { getCharacters, getComics } from '../../services/marvel_api';
 
 const Home: React.FC = () => {
   const searchOptions: Array<string> = ['comics', 'characters'];
   const [searchOption, setSearchOption] = useState<string>('');
   const [searchText, setSearchText] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
+  const [totalResults, setTotalResults] = useState<number>(0);
 
-  // useEffect(() => {
-  //   console.log(searchOption);
-  // }, [searchOption]);
+  const [
+    searchCharacters,
+    setSearchCharacters,
+  ] = useState<Array<ICharacter> | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [searchResultsPageCount, setSearchResultsPageCount] = useState<number>(
+    1,
+  );
+
+  const [searchCurrentPage, setSearchCurrentPage] = useState<number>(1);
+
+  function getPagesCount(pagesNumber: number, resultsPerPage: number) {
+    return pagesNumber % resultsPerPage === 0
+      ? Math.floor(pagesNumber / resultsPerPage)
+      : Math.floor(pagesNumber / resultsPerPage) + 1;
+  }
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value);
   };
 
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number,
+  ) => {
+    setSearchCurrentPage(value);
+    processCharactersSearchRequest(value - 1);
+  };
+
+  const processCharactersSearchRequest = async (offset = 0) => {
+    setLoading(true);
+    const response = await getCharacters(searchText, offset + 1);
+
+    const parsedResult: ICharacter[] = response.results.map(
+      (item: {
+        id: number;
+        name: string;
+        description: string;
+        thumbnail: {
+          extension: string;
+          path: string;
+        };
+      }) => {
+        return {
+          id: item.id,
+          name: item.name,
+          description: item.description,
+          image: `${item.thumbnail.path}.${item.thumbnail.extension}`,
+          type: 'character',
+        };
+      },
+    );
+
+    setLoading(false);
+    setSearchCharacters(parsedResult);
+    setSearchResultsPageCount(getPagesCount(response.total, 10));
+    setTotalResults(response.total);
+  };
+
   const handleSubmit = useCallback(async () => {
-    console.log('CLICANK NA BUSCA');
-
     try {
-      setLoading(true);
-      const timestamp = Number(new Date());
-      const hash = md5(timestamp + PRIVATE_KEY + PUBLIC_KEY);
-
-      const response = await marvelApi.get('/characters', {
-        params: {
-          nameStartsWith: 'spider',
-          apikey: PUBLIC_KEY,
-          hash,
-          ts: timestamp,
-        },
-      });
-      console.log(response);
-      // await api.post('/users', {
-      //   fullname,
-      //   email,
-      //   password,
-      // });
-
-      // toast.success(
-      //   `Olá ${fullname}. Sua conta foi criada com sucesso. Entre com suas credenciais para acessar sua conta!`,
-      // );
-      setLoading(false);
+      if (searchOption === '' || searchText === '') {
+        toast.error(`Por favor, preencha os filtros para buscar`);
+      } else if (searchOption === 'characters') {
+        processCharactersSearchRequest();
+      } else {
+        const response = await getComics(searchText);
+      }
     } catch (error) {
-      // toast.error(`Olá ${fullname}. Não foi possível criar a conta.`);
+      toast.error('Hey, ocorreu um erro ao realizar a busca');
       setLoading(false);
     }
-  }, []);
+  }, [searchOption, searchText]);
 
   return (
     <Layout>
@@ -104,11 +136,24 @@ const Home: React.FC = () => {
                   }}
                 />
                 <VerticalDivider />
-                <SearchButton onClick={handleSubmit}>Buscar</SearchButton>
+                <SearchButton onClick={handleSubmit}>
+                  {loading && <Loading />}
+                  Buscar
+                </SearchButton>
               </SearchInputContainer>
             </SearchContainer>
           </SearchContentCenter>
         </SearchContent>
+        {searchCharacters !== null && (
+          <SearchResultsContainer>
+            <CardsTable count={totalResults} characters={searchCharacters} />
+            <Pagination
+              count={searchResultsPageCount}
+              page={searchCurrentPage}
+              onChange={handlePageChange}
+            />
+          </SearchResultsContainer>
+        )}
       </Container>
     </Layout>
   );

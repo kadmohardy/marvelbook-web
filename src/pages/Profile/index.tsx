@@ -2,6 +2,8 @@ import { Divider, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import AccountSettings from '../../components/AccountSettings';
 import Layout from '../../components/Layout';
+import FavoritesContainer from '../../components/FavoritesContainer';
+
 import {
   Container,
   Content,
@@ -14,8 +16,8 @@ const PatientProfile: React.FC = () => {
   const [currentContent, setCurrentContent] = useState('accounts');
 
   useEffect(() => {
-    console.log(window.navigator);
-  }, []);
+    console.log(currentContent);
+  }, [currentContent]);
 
   return (
     <Layout>
@@ -56,6 +58,12 @@ const PatientProfile: React.FC = () => {
           </ContentLeft>
           <ContentRight>
             {currentContent === 'account' && <AccountSettings />}
+            {currentContent === 'favorites_characters' && (
+              <FavoritesContainer type="character" />
+            )}
+            {currentContent === 'favorites_comics' && (
+              <FavoritesContainer type="comic" />
+            )}
           </ContentRight>
         </Content>
       </Container>

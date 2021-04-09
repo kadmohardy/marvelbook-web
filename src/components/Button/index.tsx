@@ -11,8 +11,6 @@ const Button: React.FC<
 > = ({
   title,
   loading,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ...props
 }: ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <Container disableElevation type="submit" disabled={loading}>
